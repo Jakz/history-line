@@ -15,7 +15,7 @@ public class TimeBar
   public TimeBar(TimeSpan span)
   {
     this.span = span;
-    this.color = TimeBarColor.RED;
+    this.color = TimeBarColor.randomColor();
   }
   
   public void render(TimeGraph graph, Canvas c, int row)
@@ -26,9 +26,13 @@ public class TimeBar
     float ustart = graph.percentForDate(span.getBegin());
     float uend = graph.percentForDate(span.getEnd());
     
+    System.out.println("SPAN: "+ustart+", "+uend);
+    
     /* skip rendering if bar falls outside graph */
-    if (ustart <= 1.0 || uend >= 0.0)
+    if ((ustart < 1.0 && uend > 0.0f) || (uend >= 0.0f && ustart < 1.0f))
     {   
+      System.out.println("Drawing "+row);
+      
       float start = Math.max(ustart, 0.0f);
       float end = Math.min(uend, 1.0f);
       

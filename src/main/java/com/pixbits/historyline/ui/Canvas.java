@@ -20,7 +20,7 @@ import processing.core.PFont;
 
 public class Canvas extends PApplet implements ChangeListener
 {
-  public int WIDTH = 1920, HEIGHT = 1080;
+  public int WIDTH = 1024, HEIGHT = 600;
 
   int MARGIN_TOP = 10;
   int MARGIN_SIDES = 10;
@@ -32,7 +32,8 @@ public class Canvas extends PApplet implements ChangeListener
   public void setup()
   {
     //smooth();
-    size(1920, 1080);
+    size(WIDTH, HEIGHT);
+    setSize(WIDTH, HEIGHT);
     noLoop();
   }
   
@@ -102,6 +103,8 @@ public class Canvas extends PApplet implements ChangeListener
     span.render(graph, this, 0);
     TimeBar span2 = new TimeBar(new TimeSpan(new Year(1360), new Year(1600)));
     span2.render(graph, this, 1);
+    TimeBar span3 = new TimeBar(new TimeSpan(new Year(1000), new Year(1100)));
+    span3.render(graph, this, 2);
 
   }
   

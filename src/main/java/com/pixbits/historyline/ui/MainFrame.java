@@ -25,7 +25,7 @@ public class MainFrame extends JFrame implements ComponentListener
 	    
     pack();
     setVisible(true);
-    setLocation(100, 100);
+    setLocationRelativeTo(null);
   }
   
   @Override public void componentHidden(ComponentEvent e) { }
