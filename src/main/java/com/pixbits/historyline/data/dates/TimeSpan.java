@@ -24,6 +24,11 @@ public class TimeSpan
   public Date getBegin() { return begin; }
   public Date getEnd() { return end; }
   
+  public boolean overlap(TimeSpan other)
+  {
+    return !(end.compareTo(other.begin) <= 0 && begin.compareTo(other.end) > 0); 
+  }
+  
   public Order compare(TimeSpan other)
   {
     Date obegin = other.getBegin();

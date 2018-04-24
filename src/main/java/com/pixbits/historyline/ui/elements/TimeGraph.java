@@ -40,8 +40,8 @@ public class TimeGraph
   {
     this.base = base;
     this.scale = scale;
-    this.columns = 10;
-    this.rows = 10;
+    this.columns = 20;
+    this.rows = 20;
     
     buffer = new ArrayList<>();
     bars = new ArrayList<>();
