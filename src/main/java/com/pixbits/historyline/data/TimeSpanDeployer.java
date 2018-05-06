@@ -16,7 +16,7 @@ public class TimeSpanDeployer<T>
   private final Stack<Pair<TimeSpan, T>> data;
   private List<List<Pair<TimeSpan, T>>> rows;
   
-  TimeSpanDeployer()
+  public TimeSpanDeployer()
   {
     data = new Stack<>();
   }
@@ -26,10 +26,20 @@ public class TimeSpanDeployer<T>
     return !row.stream().anyMatch(e -> e.first.overlap(span));
   }
   
+  public void clear()
+  {
+    data.clear();
+    
+    if (rows != null)
+      rows.clear();
+  }
+  
   public void add(T d, TimeSpan span)
   {
     data.add(new Pair<>(span, d));
   }
+  
+  public List<List<Pair<TimeSpan, T>>> rows() { return rows; }
   
   public void deploy(int rows)
   {
@@ -45,6 +55,11 @@ public class TimeSpanDeployer<T>
       Optional<List<Pair<TimeSpan, T>>> row = this.rows.stream()
         .filter(r -> hasFreeSpan(r, e.first))
         .findFirst();
+            
+      if (row.isPresent())
+        row.get().add(e);
+      else
+        break;
     }
   }
 }

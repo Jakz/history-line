@@ -1,7 +1,9 @@
 package com.pixbits.historyline.ui.elements;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.pixbits.historyline.data.TimeSpanDeployer;
 import com.pixbits.historyline.data.dates.Date;
 import com.pixbits.historyline.data.dates.TimeSpan;
 import com.pixbits.historyline.data.dates.Year;
@@ -33,7 +35,7 @@ public class TimeGraph
   private int columns;
   private int rows;
   
-  private final List<TimeBar> buffer;
+  private final TimeSpanDeployer<TimeBar> buffer;
   private List<List<TimeBar>> bars;
   
   public TimeGraph(Year base, Scale scale)
@@ -43,7 +45,7 @@ public class TimeGraph
     this.columns = 20;
     this.rows = 20;
     
-    buffer = new ArrayList<>();
+    buffer = new TimeSpanDeployer<>();
     bars = new ArrayList<>();
     reset();
   }
@@ -57,17 +59,23 @@ public class TimeGraph
       bars.add(new ArrayList<>());
   }
   
+  public void add(TimeBar bar)
+  {
+    buffer.add(bar, bar.span());
+  }
+  
+  public List<TimeBar> row(int index) { return bars.get(index); }
+  
   public void deploy()
   {
-    
-    for (TimeBar bar : buffer)
-    {
-      
-      
-      
-    }
-    
-    
+    buffer.deploy(rows);
+    bars = buffer.rows().stream()
+      .map(row -> row.stream()
+          .map(span -> span.second)
+          .collect(Collectors.toList())
+      )
+      .collect(Collectors.toList()
+    );
   }
   
   public float percentForDate(Date date)

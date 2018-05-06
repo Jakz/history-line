@@ -18,6 +18,8 @@ public class TimeBar
     this.color = TimeBarColor.randomColor();
   }
   
+  public TimeSpan span() { return span; }
+  
   public void render(TimeGraph graph, Canvas c, int row)
   {
     c.stroke(color.stroke);

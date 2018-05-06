@@ -6,6 +6,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Float;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -125,13 +127,29 @@ public class Canvas extends PApplet implements ChangeListener
 
   public void test()
   {
-    TimeBar span = new TimeBar(new TimeSpan(new Year(1305), new Year(1388)));
-    span.render(graph, this, 0);
+    for (int k = 0; k < 30; ++k)
+    {
+      int a = ThreadLocalRandom.current().nextInt(30);
+      int s = ThreadLocalRandom.current().nextInt(1300, 1400);
+      graph.add(new TimeBar(new TimeSpan(new Year(s), new Year(s+a+20))));
+    }
+    
+    /*TimeBar span = new TimeBar(new TimeSpan(new Year(1305), new Year(1388)));
+    graph.add(span);
     TimeBar span2 = new TimeBar(new TimeSpan(new Year(1360), new Year(1600)));
-    span2.render(graph, this, 1);
+    graph.add(span2);
     TimeBar span3 = new TimeBar(new TimeSpan(new Year(1000), new Year(1100)));
-    span3.render(graph, this, 2);
+    graph.add(span3);*/
 
+    graph.deploy();
+    
+    for (int i = 0; i < graph.getRows(); ++i)
+    {
+      final int j = i;
+      List<TimeBar> row = graph.row(i);
+      row.stream().forEach(r -> r.render(graph, this, j));
+    }
+    
   }
 
   public void keyPressed()

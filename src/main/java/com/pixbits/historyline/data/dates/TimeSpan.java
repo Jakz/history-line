@@ -26,7 +26,7 @@ public class TimeSpan
   
   public boolean overlap(TimeSpan other)
   {
-    return !(end.compareTo(other.begin) <= 0 && begin.compareTo(other.end) > 0); 
+    return !(end.compareTo(other.begin) <= 0 || begin.compareTo(other.end) > 0); 
   }
   
   public Order compare(TimeSpan other)
