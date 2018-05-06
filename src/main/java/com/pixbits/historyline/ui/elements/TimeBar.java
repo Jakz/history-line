@@ -2,6 +2,7 @@ package com.pixbits.historyline.ui.elements;
 
 import java.awt.Color;
 
+import com.pixbits.historyline.data.RenderableAsBar;
 import com.pixbits.historyline.data.dates.TimeSpan;
 import com.pixbits.historyline.ui.Canvas;
 
@@ -10,23 +11,24 @@ import processing.core.*;
 public class TimeBar
 {
   private final TimeBarColor color;
-  private final TimeSpan span;
+  private final RenderableAsBar data;
     
-  public TimeBar(TimeSpan span)
+  public TimeBar(RenderableAsBar data)
   {
-    this.span = span;
+    this.data = data;
     this.color = TimeBarColor.randomColor();
   }
   
-  public TimeSpan span() { return span; }
+  public RenderableAsBar data() { return data; }
+  public TimeSpan span() { return data.getTimeSpan(); }
   
   public void render(TimeGraph graph, Canvas c, int row)
   {
     c.stroke(color.stroke);
     c.fill(color.fill);
     
-    float ustart = graph.percentForDate(span.getBegin());
-    float uend = graph.percentForDate(span.getEnd());
+    float ustart = graph.percentForDate(span().getBegin());
+    float uend = graph.percentForDate(span().getEnd());
     
     System.out.println("SPAN: "+ustart+", "+uend);
     
@@ -45,7 +47,7 @@ public class TimeBar
       
       c.textAlign(Canvas.CENTER);
       c.fill(0);
-      c.text("Leonardo Da Vinci", c.getSideMargin() + c.getCanvasWidth()*start+width/2, c.getTopMargin() + height/2 + height*row + c.textAscent()/2);
+      c.text(data.getCaption(), c.getSideMargin() + c.getCanvasWidth()*start+width/2, c.getTopMargin() + height/2 + height*row + c.textAscent()/2);
     }
   }
   

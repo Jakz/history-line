@@ -11,6 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.pixbits.historyline.data.RenderableAsBar;
 import com.pixbits.historyline.data.dates.TimeSpan;
 import com.pixbits.historyline.data.dates.Year;
 import com.pixbits.historyline.ui.elements.TimeBar;
@@ -131,7 +132,10 @@ public class Canvas extends PApplet implements ChangeListener
     {
       int a = ThreadLocalRandom.current().nextInt(30);
       int s = ThreadLocalRandom.current().nextInt(1300, 1400);
-      graph.add(new TimeBar(new TimeSpan(new Year(s), new Year(s+a+20))));
+      
+      RenderableAsBar data = RenderableAsBar.of(new TimeSpan(new Year(s), new Year(s+a+20)), "Leonardo da Vinci");
+      TimeBar bar = new TimeBar(data);
+      graph.add(bar);
     }
     
     /*TimeBar span = new TimeBar(new TimeSpan(new Year(1305), new Year(1388)));

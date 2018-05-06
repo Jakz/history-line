@@ -3,6 +3,8 @@ package com.pixbits.historyline.ui.elements;
 import java.awt.Color;
 import java.util.Random;
 
+import com.pixbits.lib.ui.color.PleasantColorGenerator;
+
 public class TimeBarColor
 {
   public final Color stroke;
@@ -22,10 +24,17 @@ public class TimeBarColor
     TimeBarColor.RED
   };
   
-  private static final Random r = new Random();
+  /*private static final Random r = new Random();
   public static TimeBarColor randomColor()
   {
     return colors[r.nextInt(colors.length)];
+  }*/
+  
+  private static PleasantColorGenerator g = new PleasantColorGenerator();
+  public static TimeBarColor randomColor()
+  {
+    Color c = g.getColor();
+    return new TimeBarColor(c.darker(), c);
   }
 
 }
