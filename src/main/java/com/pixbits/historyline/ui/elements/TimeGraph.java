@@ -17,6 +17,7 @@ public class TimeGraph
   {
     UNITS(1, 10),
     TENTHS(10, 100),
+    TWENTY(20, 100),
     FIFTIES(50, 1000),
     ;
     
@@ -38,12 +39,12 @@ public class TimeGraph
   private final TimeSpanDeployer<TimeBar> buffer;
   private List<List<TimeBar>> bars;
   
-  public TimeGraph(Year base, Scale scale)
+  public TimeGraph(Year base, Scale scale, int columns, int rows)
   {
     this.base = base;
     this.scale = scale;
-    this.columns = 20;
-    this.rows = 20;
+    this.columns = columns;
+    this.rows = rows;
     
     buffer = new TimeSpanDeployer<>();
     bars = new ArrayList<>();

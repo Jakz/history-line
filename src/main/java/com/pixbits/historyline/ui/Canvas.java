@@ -1,10 +1,10 @@
 package com.pixbits.historyline.ui;
 
-import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Float;
-
+import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -16,20 +16,28 @@ import com.pixbits.historyline.data.dates.TimeSpan;
 import com.pixbits.historyline.data.dates.Year;
 import com.pixbits.historyline.ui.elements.TimeBar;
 import com.pixbits.historyline.ui.elements.TimeGraph;
+import com.pixbits.historyline.ui.elements.Tooltip;
+import com.pixbits.lib.ui.color.Color;
 
 import processing.core.PApplet;
 import processing.core.PFont;
 
 public class Canvas extends PApplet implements ChangeListener
 {
-  public int WIDTH = 1024, HEIGHT = 600;
+  public int WIDTH = 1920, HEIGHT = 1080;
 
   int MARGIN_TOP = 10;
   int MARGIN_SIDES = 10;
   int YEAR_HEADER_SIZE = 50;
   int BAR_HEIGHT = 15;
 
-  TimeGraph graph = new TimeGraph(new Year(1300), TimeGraph.Scale.TENTHS);
+  TimeGraph graph = new TimeGraph(new Year(-500), TimeGraph.Scale.TENTHS, 70, 50);
+  Tooltip tooltip = new Tooltip(this, -1);
+  
+  Canvas()
+  {
+    setPreferredSize(new Dimension(WIDTH, HEIGHT));
+  }
 
   public void setup()
   {
@@ -104,13 +112,12 @@ public class Canvas extends PApplet implements ChangeListener
     }
 
     textAlign(CENTER);
-    for (int x = MARGIN_SIDES, yx = 0; x <= WIDTH
-        - MARGIN_SIDES; x += SPACING, ++yx)
+    for (int x = MARGIN_SIDES, yx = 0; x <= WIDTH - MARGIN_SIDES; x += SPACING, ++yx)
     {
 
       pushMatrix();
       translate(x - textAscent() / 2, HEIGHT - YEAR_HEADER_SIZE / 2);
-      rotate(HALF_PI);
+      rotate(HALF_PI/2);
 
       int y = graph.getBase().year + yx * graph.getScale().delta;
 
@@ -124,11 +131,14 @@ public class Canvas extends PApplet implements ChangeListener
     }
 
     test();
+    
+    tooltip.setText("antani\nfoti");
+    tooltip.draw(mouseX, mouseY - 50);
   }
 
   public void test()
   {
-    for (int k = 0; k < 30; ++k)
+   /* for (int k = 0; k < 30; ++k)
     {
       int a = ThreadLocalRandom.current().nextInt(30);
       int s = ThreadLocalRandom.current().nextInt(1300, 1400);
@@ -136,15 +146,17 @@ public class Canvas extends PApplet implements ChangeListener
       RenderableAsBar data = RenderableAsBar.of(new TimeSpan(new Year(s), new Year(s+a+20)), "Leonardo da Vinci");
       TimeBar bar = new TimeBar(data);
       graph.add(bar);
-    }
+    }*/
     
-    /*TimeBar span = new TimeBar(new TimeSpan(new Year(1305), new Year(1388)));
-    graph.add(span);
-    TimeBar span2 = new TimeBar(new TimeSpan(new Year(1360), new Year(1600)));
-    graph.add(span2);
-    TimeBar span3 = new TimeBar(new TimeSpan(new Year(1000), new Year(1100)));
-    graph.add(span3);*/
+    graph.add(new TimeBar(RenderableAsBar.of(new TimeSpan(new Year(-500), new Year(-200)), "Colosseo")));
 
+    
+    graph.add(new TimeBar(RenderableAsBar.of(new TimeSpan(new Year(-101), new Year(-44)), "Giulio Cesare")));
+    graph.add(new TimeBar(RenderableAsBar.of(new TimeSpan(new Year(-70), new Year(-30)), "Cleopatra")));
+
+    graph.add(new TimeBar(RenderableAsBar.of(new TimeSpan(new Year(72), new Year(80)), "Colosseo")));
+
+    
     graph.deploy();
     
     for (int i = 0; i < graph.getRows(); ++i)
@@ -173,7 +185,7 @@ public class Canvas extends PApplet implements ChangeListener
 
   public void mouseMoved()
   {
-
+    
   }
 
   public void mouseDragged()
@@ -191,15 +203,36 @@ public class Canvas extends PApplet implements ChangeListener
   {
 
   }
-
-  public void fill(Color c)
+  
+  public void textBounded(char[] chars, float x, float y, float w)
   {
-    fill(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
+    int i = 0, cw = 0;
+    float nw = this.textWidth(chars[i]);
+    
+    while (i < chars.length - 1 && cw + nw < w)
+    {
+      ++i;
+      cw += nw;
+      nw = textWidth(chars[i]);
+    }
+    
+    if (i == chars.length - 1 && cw + nw < w)
+      ++i;
+    
+    if (i >= 1 && chars[i-1] == ' ')
+      --i;
+    
+    this.text(chars, 0, i, x, y);
   }
+  
+  public void rect(Rectangle2D.Float rect) { rect(rect.x, rect.y, rect.width, rect.height); }
 
-  public void stroke(Color c)
-  {
-    stroke(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
-  }
+  public void fill(java.awt.Color c) { fill(c.getRed(),c.getGreen(),c.getBlue(),c.getAlpha()); }
+  public void stroke(java.awt.Color c) { stroke(c.getRed(),c.getGreen(),c.getBlue(),c.getAlpha()); }
+
+  public void fill(Color c) { fill(c.r(), c.g(), c.b(), c.a()); }
+  public void stroke(Color c) { stroke(c.r(), c.g(), c.b(), c.a()); }
+  
+  public void background(Color c) { super.background(c.toInt()); }
 
 }
