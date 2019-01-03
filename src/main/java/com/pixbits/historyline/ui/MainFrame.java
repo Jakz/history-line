@@ -22,8 +22,8 @@ public class MainFrame extends JFrame implements ComponentListener
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     
     this.addComponentListener(this);
-    this.setPreferredSize(new Dimension(1920, 1080));
-    canvas.setSize(1920, 1080);
+    this.setPreferredSize(new Dimension(1024, 600));
+    canvas.setSize(1024, 600);
 	    
     pack();
     setVisible(true);

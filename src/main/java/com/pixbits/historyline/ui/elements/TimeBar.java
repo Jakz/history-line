@@ -47,7 +47,7 @@ public class TimeBar
       final float y = c.getTopMargin()+height*row;
   
       if ((ustart < 1.0 && uend > 0.0f) || (uend >= 0.0f && ustart < 1.0f))
-        bounds = new Rectangle2D.Float(x, y, width, height);
+        bounds = new Rectangle2D.Float(x, y, width, height-1);
     }
 
     //System.out.println("SPAN: "+ustart+", "+uend);
@@ -62,7 +62,7 @@ public class TimeBar
       c.textAlign(Canvas.CENTER);
       c.fill(0);
              
-      c.textBounded(data.getCaption().toCharArray(), (float)bounds.getCenterX(), (float)bounds.getCenterY() + c.textAscent()/2, bounds.width);
+      c.textBounded(data.getCaption().toCharArray(), (float)bounds.getCenterX(), (float)bounds.getCenterY() + c.textAscent()/2 - 1, bounds.width);
     }
   }
   

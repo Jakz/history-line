@@ -19,6 +19,9 @@ public class TimeSpan
   {
     this.begin = begin;
     this.end = end;
+    
+    if (end.isBefore(begin))
+      throw new IllegalArgumentException("Timespan has end before start");
   }
   
   public Date getBegin() { return begin; }

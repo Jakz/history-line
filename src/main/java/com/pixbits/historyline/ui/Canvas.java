@@ -24,14 +24,14 @@ import processing.core.PFont;
 
 public class Canvas extends PApplet implements ChangeListener
 {
-  public int WIDTH = 1920, HEIGHT = 1080;
+  public int WIDTH = 1024, HEIGHT = 640;
 
   int MARGIN_TOP = 10;
   int MARGIN_SIDES = 10;
   int YEAR_HEADER_SIZE = 50;
   int BAR_HEIGHT = 15;
 
-  TimeGraph graph = new TimeGraph(new Year(-500), TimeGraph.Scale.TENTHS, 70, 50);
+  TimeGraph graph = new TimeGraph(new Year(-500), TimeGraph.Scale.TENTHS, 70, 30);
   Tooltip tooltip = new Tooltip(this, -1);
   
   Canvas()
@@ -107,7 +107,7 @@ public class Canvas extends PApplet implements ChangeListener
 
     stroke(180);
     for (int x = MARGIN_SIDES; x <= WIDTH - MARGIN_SIDES; x += SPACING)
-    {
+    {      
       this.line(x, 0, x, HEIGHT - YEAR_HEADER_SIZE);
     }
 
@@ -132,8 +132,8 @@ public class Canvas extends PApplet implements ChangeListener
 
     test();
     
-    tooltip.setText("antani\nfoti");
-    tooltip.draw(mouseX, mouseY - 50);
+    //tooltip.setText("antani\nfoti");
+    //tooltip.draw(mouseX, mouseY - 50);
   }
 
   public void test()
@@ -152,8 +152,15 @@ public class Canvas extends PApplet implements ChangeListener
 
     
     graph.add(new TimeBar(RenderableAsBar.of(new TimeSpan(new Year(-101), new Year(-44)), "Giulio Cesare")));
+    graph.add(new TimeBar(RenderableAsBar.of(new TimeSpan(new Year(-84), new Year(-54)), "Catullo")));
     graph.add(new TimeBar(RenderableAsBar.of(new TimeSpan(new Year(-70), new Year(-30)), "Cleopatra")));
+    graph.add(new TimeBar(RenderableAsBar.of(new TimeSpan(new Year(-65), new Year(-8)), "Orazio")));
 
+    graph.add(new TimeBar(RenderableAsBar.of(new TimeSpan(new Year(-287), new Year(-212)), "Archimede")));
+    graph.add(new TimeBar(RenderableAsBar.of(new TimeSpan(new Year(-4), new Year(65)), "Seneca")));
+    graph.add(new TimeBar(RenderableAsBar.of(new TimeSpan(new Year(37), new Year(68)), "Nerone")));
+
+    
     graph.add(new TimeBar(RenderableAsBar.of(new TimeSpan(new Year(72), new Year(80)), "Colosseo")));
 
     

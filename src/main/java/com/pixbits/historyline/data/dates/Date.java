@@ -29,6 +29,9 @@ public interface Date extends Comparable<Date>
     }
   }
   
+  public default boolean isBefore(Date other) { return this.compareTo(other) < 0; }
+  public default boolean isAfter(Date other) { return this.compareTo(other) > 0; }
+  
   public final static Date UNKNOWN = new DateUnknown();
   public final static Date NOT_YET = new NotYetDate();
 }
